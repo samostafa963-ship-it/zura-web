@@ -1,22 +1,24 @@
 const express = require('express');
-const router = express.Router();
 const mongoose = require('mongoose');
+const cors = require('cors');
+const path = require('path');
+require('dotenv').config();
 
-const Product = mongoose.model('Product', new mongoose.Schema({}, { strict: false }), 'products');
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(express.static('public'));
 
-router.get('/', async (req, res) => {
-  try {
-    const { limit = 20, page = 1, category, q } = req.query;
-    const filter = {};
-    if (category) filter.category_key = category;
-    if (q) filter.name = { $regex: q, $options: 'i' };
-    const products = await Product.find(filter)
-      .limit(+limit).skip((+page - 1) * +limit);
-    const total = await Product.countDocuments(filter);
-    res.json({ products, total, page: +page });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.log('❌ MongoDB error:', err));
 
-module.exports = router;
+app.use('/api/products', require('./routes/products'));
+app.use('/api/banners', require('./routes/banners'));
+app.use('/api/categories', require('./routes/categories'));
+app.use('/api/orders', require('./routes/orders'));
+
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
+
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
