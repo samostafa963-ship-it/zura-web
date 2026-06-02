@@ -1,6 +1,6 @@
-﻿const { MongoClient } = require('mongodb');
+const { MongoClient } = require('mongodb');
 
-const SOURCE_URI = 'mongodb+srv://samostafa963:zadstor@cluster0.utximqz.mongodb.net/ZAD_Database?retryWrites=true&w=majority';
+const SOURCE_URI = 'mongodb+srv://samostafa963:zura2025@cluster0.utximqz.mongodb.net/ZAD_Database?retryWrites=true&w=majority';
 const TARGET_URI = 'mongodb+srv://zura:zura2025@cluster0.h0n9rdk.mongodb.net/zura_web?appName=Cluster0';
 const COLLECTIONS = ['products', 'categories', 'banners'];
 
