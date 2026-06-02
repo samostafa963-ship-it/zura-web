@@ -1,7 +1,9 @@
 ﻿const { MongoClient } = require('mongodb');
+
 const SOURCE_URI = 'mongodb+srv://samostafa963:zadstor@cluster0.utximqz.mongodb.net/ZAD_Database?retryWrites=true&w=majority';
-const TARGET_URI = 'mongodb+srv://samostafa963:zura2025@cluster0.utximqz.mongodb.net/zura_web?appName=Cluster0';
+const TARGET_URI = 'mongodb+srv://zura:zura2025@cluster0.h0n9rdk.mongodb.net/zura_web?appName=Cluster0';
 const COLLECTIONS = ['products', 'categories', 'banners'];
+
 async function seed() {
   const source = new MongoClient(SOURCE_URI);
   const target = new MongoClient(TARGET_URI);
@@ -21,4 +23,5 @@ async function seed() {
   } catch(e) { console.error(e.message); }
   finally { await source.close(); await target.close(); process.exit(0); }
 }
+
 seed();
